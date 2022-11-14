@@ -1,7 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "trim.h"
+#include "show.h"
+#include "split.h"
+#include "utils.h"
 
 void help(char *msg) {
   fprintf(stderr, "\n");
@@ -13,7 +17,8 @@ void help(char *msg) {
   fprintf(stderr, "\n");
   fprintf(stderr, "commands:\n");
   fprintf(stderr, "\n");
-  fprintf(stderr, "  trim         allows triming/stripping of leading/trailing whitespace");
+  fprintf(stderr, "  trim         allows triming/stripping of leading/trailing whitespace\n");
+  fprintf(stderr, "  show         translate non-visible characters into visible characters\n");
   fprintf(stderr, "\n");
 }
 
@@ -23,14 +28,24 @@ int main(int argc, char **argv)
     help("no command given!");
     exit(1);
   }
-  char *cmd = argv[1];
-  if (strcasecmp(cmd, "trim") != -1) {
-      trim_stdin_lines(argc - 1, &argv[2]);
-  } else {
+  switchs(argv[1]) {
+    cases("trim")
+      trim_stdin_lines(argc - 2, &argv[2]);
+      break;
+
+    cases("show")
+      show(argc - 2, &argv[2]);
+      break;
+
+    cases("split")
+      //split_on_delims(argc - 2, &argv[2]);
+      break;
+
+    defaults
       char *msg;
       sprintf(msg, "unknown command: %s", argv[1]);
       help(msg);
       exit(1);
-  }
+  } switchs_end;
   exit(0);
 }
