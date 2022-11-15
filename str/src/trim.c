@@ -18,9 +18,8 @@ void trim_stdin_lines(int argc, char **argv)
     if ('\n' == c) {
       /*
        * We found a newline character. We should refresh
-       * the buffer and
-       * need to buffer them. We can just skip and
-       * continue about our marry way
+       * the buffer and need to buffer them. We can just 
+       * skip and continue about our marry way
        */
       putchar(c);
       buffer_clear(buf);

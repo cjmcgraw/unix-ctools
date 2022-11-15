@@ -34,7 +34,11 @@
 /** Close the switchs */
 #define switchs_end } while ( 0 ); regfree(&ss__regex); }
 
-struct Buffer;
+struct Buffer {
+  char *buf;
+  size_t len;
+  FILE *stream;
+};
 
 void buffer_init(struct Buffer *buffer);
 void buffer_add(struct Buffer *buffer, char data);

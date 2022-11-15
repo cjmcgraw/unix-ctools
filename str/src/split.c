@@ -56,12 +56,20 @@ void split_on_delims(int argc, char **argv) {
     }
   }
 
+  if (delim_len <= 0) {
+    split_help("missing required delim");
+    exit(1);
+  }
+
   buffer_init(buf);
 
+  unsigned short foundDelimChars = 0;
   char c = getchar();
   while (c != EOF) {
-    int size = buf->len;
-    if (delim_len == size) {
+    if (foundDelimChars < delim_len && c == delim[foundDelimChars]) {
+      foundDelimChars++;
+      buffer_add(buf, c);
+    }else if (delim_len == foundDelimChars) {
       if (include_delim < 0) {
         buffer_write(buf);
       }
@@ -72,16 +80,19 @@ void split_on_delims(int argc, char **argv) {
       }
 
       buffer_clear(buf);
-    } else if (c == delim[idx]) {
-      buffer_add(buf, c);
+      putchar(c);
+      foundDelimChars = 0;
     } else {
-      if (size > 0) {
+      if (foundDelimChars > 0) {
         buffer_write(buf);
         buffer_clear(buf);
+        foundDelimChars = 0;
       }
       putchar(c);
     }
 
     c = getchar();
   }
+
+  buffer_close(buf);
 }

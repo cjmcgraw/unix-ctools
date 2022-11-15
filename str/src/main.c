@@ -17,8 +17,9 @@ void help(char *msg) {
   fprintf(stderr, "\n");
   fprintf(stderr, "commands:\n");
   fprintf(stderr, "\n");
-  fprintf(stderr, "  trim         allows triming/stripping of leading/trailing whitespace\n");
-  fprintf(stderr, "  show         translate non-visible characters into visible characters\n");
+  fprintf(stderr, "  split    splits into multiple lines based on some delimiter\n");
+  fprintf(stderr, "  trim     allows triming/stripping of leading/trailing whitespace\n");
+  fprintf(stderr, "  show     translate non-visible characters into visible characters\n");
   fprintf(stderr, "\n");
 }
 
@@ -28,6 +29,7 @@ int main(int argc, char **argv)
     help("no command given!");
     exit(1);
   }
+
   switchs(argv[1]) {
     cases("trim")
       trim_stdin_lines(argc - 2, &argv[2]);
@@ -38,7 +40,7 @@ int main(int argc, char **argv)
       break;
 
     cases("split")
-      //split_on_delims(argc - 2, &argv[2]);
+      split_on_delims(argc - 2, &argv[2]);
       break;
 
     defaults
@@ -46,6 +48,7 @@ int main(int argc, char **argv)
       sprintf(msg, "unknown command: %s", argv[1]);
       help(msg);
       exit(1);
+      break;
   } switchs_end;
   exit(0);
 }

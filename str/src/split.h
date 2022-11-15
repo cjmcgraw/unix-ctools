@@ -1,5 +1,5 @@
-#ifndef TRIM_H_
-#define TRIM_H_
+#ifndef SPLIT_H_
+#define SPLIT_H_
 
 void split_on_delims(int argc, char **argv);
 
